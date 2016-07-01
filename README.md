@@ -2,6 +2,14 @@
 
 ## Getting Started
 
+### Installation
+
+```shell
+gem install 'pptx_markdown'
+```
+
+## Usage
+
 ### to_markdown
 
 Converts .pptx presentation to markdown.
