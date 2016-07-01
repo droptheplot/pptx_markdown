@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+require_relative '../lib/pptx_markdown.rb'
+
+module PPTXMarkdown
+  class Executable < Thor
+    desc 'to_markdown', 'Convert .pptx to markdown'
+    def to_markdown(input_path, output_path)
+      presentation = PPTXMarkdown::Parsers::PPTX.new(input_path).call
+      PPTXMarkdown::Builders::Markdown.new(presentation, output_path).call
+
+      finish
+    end
+
+    desc 'to_pptx', 'Convert markdown to .pptx'
+    def to_pptx(input_path, output_path)
+      presentation = PPTXMarkdown::Parsers::Markdown.new(input_path).call
+      PPTXMarkdown::Builders::PPTX.new(presentation, output_path).call
+
+      finish
+    end
+
+    desc 'clean', 'Remove everything but text from .pptx'
+    def clean(input_path, output_path)
+      presentation = PPTXMarkdown::Parsers::PPTX.new(input_path).call
+      PPTXMarkdown::Builders::PPTX.new(presentation, output_path).call
+
+      finish
+    end
+
+    private
+
+      def finish
+        puts 'Finished.'
+      end
+  end
+end
+
+PPTXMarkdown::Executable.start
